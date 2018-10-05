@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer/LICENSE
+END
+ChangeLog.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer/ChangeLog.txt
+END
+PHPMailer doc.rar
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer/PHPMailer%20doc.rar
+END
+class.phpmailer.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer/class.phpmailer.php
+END
+class.smtp.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/atex_desenvolvimento/!svn/ver/3/classes/phpmailer/class.smtp.php
+END
