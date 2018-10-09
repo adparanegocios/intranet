@@ -5,10 +5,7 @@ ini_set ( 'display_errors', 0 );
 set_time_limit ( 0 );
 
 include_once 'global.php';
-include_once 'conexao.php';
-include_once 'classes/phpmailer/class.phpmailer.php';
 
-//$dir = "http://10.10.15.150/refeicaoimport/importar/";
 $dir = "http://10.10.15.150/refeicaoimport/";
 $nomes = array ("1_DIARIODOPARA.txt", "2_RBATV.txt", "4_99FM.txt", "5_RADIOCLUBE.txt", "6_SISTEMACLUBE.txt", "8_DIARIOONLINE.txt" );
 $log = array ();
@@ -41,10 +38,11 @@ foreach ( $nomes as $n ) {
 					)
 				";
 	
-	$rs = $db->Execute ( $sql );
+	$rs = $conexao->prepare($sql);
+	$rs->execute();
 	
 	if ($rs) {
-		while ( $o = $rs->FetchNextObject () ) {
+		while ( $o = $rs->fetch(PDO::FETCH_OBJ) ) {
 			$colaboradores [] = str_replace ( " ", "", $o->CHAPA );
 		}
 	}
@@ -110,7 +108,8 @@ foreach ( $nomes as $n ) {
 								CONVERT ( DATETIME, CONVERT ( VARCHAR, GETDATE(), 120) ), 
 								'mestre', 
 								CONVERT ( DATETIME, CONVERT ( VARCHAR, GETDATE(), 120) ));";
-				$db->Execute ( $sql );
+				$rs_aux = $conexao->prepare($sql);
+				$rs_aux->execute();
 				$apagar [] = $n;
 			} else {
 				$log [$codcoligada] .= "$chapa;";
@@ -123,8 +122,8 @@ if (count ( $log ) > 0) {
 	$timestamp = mktime ( date ( "H" ) - 3, date ( "i" ), date ( "s" ), date ( "m" ), date ( "d" ), date ( "Y" ), 0 );
 	$data = gmdate ( "d/m/Y H:i:s", $timestamp );
 	
-	$mail = new PHPMailer ();
-	$mail->SetLanguage ( "br", "../classes/phpmailer/language/" );
+	$mail = new PHPMailer\PHPMailer\PHPMailer();
+	$mail->SetLanguage ( "br", "classes/phpmailer/language/" );
 	$mail->IsSMTP ();
 	$mail->Host = HOST_EMAIL;
 	$mail->SMTPAuth = true;
@@ -136,30 +135,29 @@ if (count ( $log ) > 0) {
 	$mail->FromName = "BI";
 	$mail->WordWrap = 50;
 	$mail->IsHTML ( true );
-	$mail->Subject = "CHAPAS QUE N√O IMPORTARAM EM $data.";
+	$mail->Subject = "CHAPAS QUE N√ÉO IMPORTARAM EM $data.";
 	
 	foreach ( $log as $i => $c ) {
 		
 		if ($i == 1) {
-			$conteudo .= "$i - " . utf8_encode ( "DI¡RIO DO PAR¡" ) . "<br /><hr> $c <br /><hr>";
+			$conteudo .= "$i - " . utf8_encode ( "DI√ÅRIO DO PAR√Å" ) . "<br /><hr> $c <br /><hr>";
 		} elseif ($i == 2) {
 			$conteudo .= "$i - RBA TV<br /><hr> $c <br /><hr>";
 		} elseif ($i == 3) {
-			$conteudo .= "$i - " . utf8_encode ( "DI¡RIO FM" ) . "<br /><hr> $c <br /><hr>";
+			$conteudo .= "$i - " . utf8_encode ( "DI√ÅRIO FM" ) . "<br /><hr> $c <br /><hr>";
 		} elseif ($i == 4) {
 			$conteudo .= "$i - 99 FM<br /><hr> $c <br /><hr>";
 		} elseif ($i == 5) {
-			$conteudo .= "$i - " . utf8_encode ( "R¡DIO CLUBE" ) . "<br /><hr> $c <br /><hr>";
+			$conteudo .= "$i - " . utf8_encode ( "R√ÅDIO CLUBE" ) . "<br /><hr> $c <br /><hr>";
 		} elseif ($i == 6) {
 			$conteudo .= "$i - SISTEMA CLUBE<br /><hr> $c <br /><hr>";
 		} elseif ($i == 8) {
-			$conteudo .= "$i - " . utf8_encode ( "DI¡RIO ONLINE" ) . "<br /><hr> $c <br /><hr>";
+			$conteudo .= "$i - " . utf8_encode ( "DI√ÅRIO ONLINE" ) . "<br /><hr> $c <br /><hr>";
 		}
 	
 	}
 	
 	$mail->Body = utf8_decode ( $conteudo );
-	//$mail->AddAddress ( 'adeilson@diarioonline.com.br' );
 	$mail->AddAddress ( 'desenv@diarioonline.com.br' );
 	
 	$mail->Send ();
