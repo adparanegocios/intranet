@@ -1,14 +1,14 @@
 <?php
 
-define('DB_HOST', "10.10.15.66");
-define('DB_USER', "sa");
-define('DB_PASSWORD', "RBA13#");
-define('DB_NAME', "CorporeRM");
+define('DB_HOST', "<SERVIDOR>");
+define('DB_USER', "<USUARIO>");
+define('DB_PASSWORD', "<SENHA>");
+define('DB_NAME', "<BANCO>");
 define('DB_DRIVER', "sqlsrv");
 
-define ( 'HOST_EMAIL', 'mail.gruporba.com.br' );
-define ( 'USER_EMAIL', 'rm@rbadecomunicacao.com.br' );
-define ( 'PASS_EMAIL', 'RBA13#' );
+define ( 'HOST_EMAIL', '<SERVIDOR>' );
+define ( 'USER_EMAIL', '<USUARIO>' );
+define ( 'PASS_EMAIL', '<SENHA>' );
 define ( 'PORT_EMAIL', '25' );
 define ( 'PERCENTAGEM_LIMITE', '80' );
 
